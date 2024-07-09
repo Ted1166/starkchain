@@ -1,25 +1,42 @@
-fn main() -> u32 {
-    fib(16)
+use starknet::ContractAddress;
+use core::array::{Array, ArrayTrait};
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+struct Product {
+    product_id: ContractAddress,
+    owner: felt252,
+    origin: felt252,
+    current_location: felt252,
 }
 
-fn fib(mut n: u32) -> u32 {
-    let mut a: u32 = 0;
-    let mut b: u32 = 1;
-    while n != 0 {
-        n = n - 1;
-        let temp = b;
-        b = a + b;
-        a = temp;
-    };
-    a
+#[derive(Copy, Drop, Serde, starknet::Store)]
+struct ProductLocationUpdate {
+    product_id: ContractAddress,
+    new_location: felt252,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::fib;
+#[derive(Copy, Drop, Serde, starknet::Store)]
+struct Certification {
+    product_id: ContractAddress,
+    certifier: felt252,
+    Certification_id: felt252,
+}
 
-    #[test]
-    fn it_works() {
-        assert(fib(16) == 987, 'it works!');
-    }
+#[derive(Copy, Drop, Serde, starknet::Store)]
+struct Reward {
+    consumer_id: ContractAddress,
+    product_id: ContractAddress,
+    points: u64,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+struct ConsumerRewards {
+    consumer_id: felt252,
+    total_points: u64,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+struct InvokeFunction {
+    contract_address: felt252,
+    entry_point_selector: felt252,
 }
